@@ -1,0 +1,76 @@
+.table-wrapper {
+    width: 50%;
+}
+
+.table-wrapper .table {
+    position: relative;
+}
+.table-wrapper .table::before {
+    box-sizing: border-box;
+    display: block;
+    height: 99.9999%;
+    border-left: 2px solid #4e4e4e;
+    content: "";
+    left: 33.1333%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: 1;
+}
+
+.table-wrapper .table::after {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    border-left: 2px solid #4e4e4e;
+    content: "";
+    right: 33.333%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 0;
+}
+
+.table-wrapper .table tbody::before {
+    border-top: 2px solid #4e4e4e;
+    content: "";
+    display: block;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 33.3333%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 99.9999%;
+    z-index: 1;
+}
+
+.table-wrapper .table tbody::after {
+    border-bottom: 2px solid #4e4e4e;
+    content: "";
+    display: block;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    bottom: 33.2333%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 99.9999%;
+}
+
+.table-wrapper .sudoku-table {
+    background-color: #f9f9f9;
+    justify-content: center;
+}
+
+.game-table td {
+    border: 1px solid black;
+}
+
+.game-table td .value {
+    text-align: center;
+    min-width: 30px;
+    min-height: 30px;
+}
+

@@ -1,25 +1,65 @@
 // @ts-ignore
 import _ from 'lodash';
+import { GameConfig } from '../App';
 
 export class SudokuService {
-    private solution: null | [number[]] = null;
+    gameGrid: number[][] | undefined;
+    solution: null | [number[]] = null;
+    cellsCount: number;
+    pencilGrid: number[][] | undefined;
     private maxNumber: number;
     private size: number;
+    private maxEmptyCells = 0;
 
-    constructor(size: number) {
+    constructor({size, difficultyLevel}: GameConfig) {
         this.size = size;
         this.maxNumber = Math.pow(this.size, 2);
+        this.cellsCount = Math.pow(this.maxNumber, 2);
+        this.maxEmptyCells = this.getEmptyCellsCount(difficultyLevel);
+        this.createSudokuGrid();
+        this.createPencilGrid();
     }
 
-    public createSudokuGrid(size?: number): number[][] {
+    private createPencilGrid() {
+        const pencilGrid = [];
+
+        for (let i = 0; i < Math.pow(this.size, 2); i++) {
+            const row = [];
+            for (let j = 0; j < Math.pow(this.size, 2); j++) {
+                row.push(0);
+            }
+            pencilGrid.push(row);
+        }
+
+        this.pencilGrid = pencilGrid;
+    }
+
+    private createSudokuGrid(): void {
         let grid: number[][] = this.createProtoGrid();
         grid = this.mixGrid(grid);
         this.solution = _.cloneDeep(grid);
+        this.gameGrid = this.hideCells(grid);
+    }
 
-        console.log(grid);
-        console.log(this.hideCells(grid));
+    private getEmptyCellsCount = (level: string): number => {
+        let emptyCellsPercent = 0;
 
-        return this.hideCells(grid);
+        switch (level) {
+            case 'easy':
+                emptyCellsPercent = 0.55;
+                break;
+            case 'middle':
+                emptyCellsPercent = 0.60;
+                break;
+            case 'hard':
+                emptyCellsPercent = 0.65;
+                break;
+            case 'ultraHard':
+                emptyCellsPercent = 0.70;
+                break;
+        }
+
+        return Math.trunc(this.cellsCount * emptyCellsPercent) + 1;
     }
 
     private createProtoGrid(): number[][]{
@@ -42,12 +82,10 @@ export class SudokuService {
 
     private transposing(grid: number[][]): number[][] {
         const clonedGrid: number[][] = _.cloneDeep(grid);
-        // console.log('transposing');
         return clonedGrid[0].map((col, i) => clonedGrid.map(row => row[i]));
     }
 
     private makeSmallRowsSwap(grid: number[][]): number[][] {
-        // console.log('makeSmallRowsSwap');
         const clonedGrid = _.cloneDeep(grid);
         let areaNumber = this.getRandomNumber(0, this.size - 1);
         const rangeOfRows = this.getRangeArray(areaNumber);
@@ -66,7 +104,6 @@ export class SudokuService {
     }
 
     private makeSmallCollumSwap(grid: number[][]): number[][] {
-        // console.log('makeSmallCollumSwap');
         let clonedGrid = _.cloneDeep(grid);
         clonedGrid = this.transposing(clonedGrid);
         clonedGrid = this.makeSmallRowsSwap(clonedGrid);
@@ -74,7 +111,6 @@ export class SudokuService {
     }
 
     private makeBigRowsSwap(grid: number[][]): number[][] | void {
-        // console.log('makeBigRowsSwap');
         const getRowsForBigSwap = (grid: number[][], range: number[]) => {
             const clonedGrid = _.cloneDeep(grid);
             const rowsForSwap = [];
@@ -118,7 +154,6 @@ export class SudokuService {
     }
     
     private makeBigCollumSwap(grid: number[][]): number[][] {
-        // console.log('makeBigCollumSwap');
         let clonedGrid = _.cloneDeep(grid);
         clonedGrid = this.transposing(clonedGrid);
         clonedGrid = this.makeBigRowsSwap(clonedGrid);
@@ -127,13 +162,12 @@ export class SudokuService {
 
     private mixGrid = (grid: number[][]): number[][] => {
         let clonedGrid = _.cloneDeep(grid);
-        const numberOfActions = 1000;
+        const numberOfActions = 10000;
         let mixingFunctions = [this.transposing, this.makeSmallRowsSwap, this.makeSmallCollumSwap, this.makeBigRowsSwap,
         this.makeBigCollumSwap];
 
         for (let i = 0; i < numberOfActions; i++) {
             const number = this.getRandomNumber(0, 4);
-            // console.log(number);
             clonedGrid = mixingFunctions[number].call(this, clonedGrid);
         }
 
@@ -142,16 +176,17 @@ export class SudokuService {
 
     private hideCells(grid: number[][]) {
         const clonedGrid = _.cloneDeep(grid);
-        let maxEmptyCells = 6;
+        const cellsHaveToBeEmpty = new Map();
 
-        for (let i = 0; i < Math.pow(this.size, 2); i++) {
-            let countOfEmpty = 0;
-            for (let j = 0; j < Math.pow(this.size, 2); j++) {
-                if(this.getRandomNumber(0, 10) % 2 === 0 && countOfEmpty < maxEmptyCells) {
-                    clonedGrid[i][j] = 0;
-                    countOfEmpty++
-                }
-            }
+        while (cellsHaveToBeEmpty.size <= this.maxEmptyCells) {
+            const firstIndex = this.getRandomNumber(0, this.maxNumber - 1);
+            const secondIndex = this.getRandomNumber(0, this.maxNumber - 1);
+            cellsHaveToBeEmpty.set(`x:${firstIndex}-y:${secondIndex}`, [firstIndex, secondIndex]);
+        }
+
+        // @ts-ignore
+        for (const item of cellsHaveToBeEmpty.values()) {
+            clonedGrid[item[0]][item[1]] = 0;
         }
 
         return clonedGrid;
