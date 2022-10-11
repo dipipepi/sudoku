@@ -4,7 +4,8 @@ import './SudokuGrid.css';
 import {useState} from "react";
 
 export function SudokuGrid({sudokuGrid, pencilGrid}: {sudokuGrid: number[][], pencilGrid: number[][]}) {
-    const [ activeCell, setActiveCell ] = useState([]);
+    // const [ activeCell, setActiveCell ] = useState([]);
+    const [ activePosition, setActivePosition ] = useState({col: 0, row: 0, square: 0, value: sudokuGrid[0][0]});
 
     const getPencilGrid = (indexOfCell: number) => {
         let cells = [];
@@ -18,16 +19,24 @@ export function SudokuGrid({sudokuGrid, pencilGrid}: {sudokuGrid: number[][], pe
         return cells;
     }
 
-    const setCellsActive = (position: any) => {
-        console.log('hello active', position);
+    // @ts-ignore
+    const setCellsActive = ({row, col, square, value}) => {
+        setActivePosition({row, col, square, value});
+        console.log('hello active', activePosition);
     }
 
     const getCells = (numberOfRow: number) => {
         let cells = [];
 
         for (let i = 0; i < sudokuGrid.length; i++){
+            const square = 3 * Math.floor(numberOfRow / 3) + Math.floor(i / 3);
+            const position = numberOfRow+''+i+''+square+''+sudokuGrid[numberOfRow][i] || '';
             cells.push(
-                <SudokuCell onActive={setCellsActive} key={numberOfRow+i} position={numberOfRow+''+i} value={sudokuGrid[numberOfRow][i] || ''}>
+                <SudokuCell onActive={setCellsActive}
+                            activePosition={activePosition}
+                            key={numberOfRow+i}
+                            position={position}
+                            value={sudokuGrid[numberOfRow][i] || ''}>
                     {getPencilGrid(numberOfRow)}
                 </SudokuCell>
             )
@@ -44,7 +53,7 @@ export function SudokuGrid({sudokuGrid, pencilGrid}: {sudokuGrid: number[][], pe
         }
 
         return rows;
-    }
+    };
     
     return (
         <div className="table-wrapper">

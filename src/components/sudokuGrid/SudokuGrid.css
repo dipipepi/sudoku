@@ -11,7 +11,7 @@
     height: 99.9999%;
     border-left: 2px solid #4e4e4e;
     content: "";
-    left: 33.1333%;
+    left: 33%;
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -25,7 +25,7 @@
     height: 100%;
     border-left: 2px solid #4e4e4e;
     content: "";
-    right: 33.333%;
+    right: 33%;
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -39,11 +39,15 @@
     left: 0;
     pointer-events: none;
     position: absolute;
-    top: 33.3333%;
+    top: 33%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 99.9999%;
     z-index: 1;
+}
+
+.game-row{
+    display: flex;
 }
 
 .table-wrapper .table tbody::after {
@@ -53,7 +57,7 @@
     left: 0;
     pointer-events: none;
     position: absolute;
-    bottom: 33.2333%;
+    bottom: 33%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 99.9999%;

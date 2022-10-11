@@ -1,4 +1,5 @@
 .game-cell {
+    display: flex;
     width: 55px;
     height: 55px;
     text-align: center;
@@ -15,7 +16,11 @@
 }
 
 .game-cell.active {
-    background-color: #bbd7f6;
+    background-color: #bbd7f6 !important;
+}
+
+.game-cell.highlighted {
+    background-color: #e9e9e9;
 }
 
 .game-cell:hover{
