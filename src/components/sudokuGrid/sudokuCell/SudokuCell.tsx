@@ -1,45 +1,50 @@
 import React from "react";
 import {useRef} from "react";
-import { useClickOutside } from "../../../hooks/useClickOutsode";
 import {useState} from "react";
 import '../SudokuGrid.css';
 import './SudokuCell.css';
+import {useDispatch, useSelector } from "react-redux";
+import { ActivePosition, setActivePosition } from "../../../slices/activePositionSlice";
 
-export function SudokuCell({position, value, onActive, activePosition, children}: any) {
+export function SudokuCell({position, value, children}: any) {
+    let activePosition = useSelector((state: any) => state.activePosition);
+    const dispatch = useDispatch();
     const ref = useRef();
-    const [ isActive, setIsActive ] = useState(false);
-
-    const unsetActive = (event: any) => {
-        // @ts-ignore
-        ref.current.classList.remove("active");
-    }
+    const isActive = useRef(false);
 
     const setActive = (event: any) => {
-        event.target.classList.add("active");
-        if(event.target.dataset.row === activePosition.row) {
-            event.target.classList.add("highlited");
-        }
-        onActive(event.target.dataset);
+        const position = {
+            row: event.target.dataset.row,
+            col: event.target.dataset.col,
+            square: event.target.dataset.square,
+            value: event.target.dataset.value,
+        };
+        dispatch(setActivePosition(position));
     }
 
     const getClasses = (position: any[], activePosition: { row: any; col: any; square: any; }): string => {
         let res = 'game-cell';
-        if(position[0] === activePosition.row ||
-            position[1] === activePosition.col ||
-            position[2] === activePosition.square ||
+        // console.log('hello active', activePosition);
+        if(position[0] == activePosition.row ||
+            position[1] == activePosition.col ||
+            position[2] == activePosition.square ||
             // @ts-ignore
-            position[3] === activePosition.value) {
+            position[3] == activePosition.value) {
             res += ' highlighted';
+        }
+
+        if (position[0] == activePosition.row &&
+            position[1] == activePosition.col) {
+            res += ' active';
         }
 
         return res;
     }
 
-    useClickOutside(ref, unsetActive);
-
     return (
         // @ts-ignore
-        <td ref={ref} onClick={setActive}
+        <td ref={ref}
+            onClick={setActive}
             className={getClasses(position, activePosition)}
             data-row={position[0]}
             data-col={position[1]}

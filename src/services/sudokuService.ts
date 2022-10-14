@@ -2,11 +2,13 @@
 import _ from 'lodash';
 import { GameConfig } from '../App';
 
+type pencilGridType = any[][] | undefined;
+
 export class SudokuService {
     gameGrid: number[][] | undefined;
     solution: null | [number[]] = null;
     cellsCount: number;
-    pencilGrid: number[][] | undefined;
+    pencilGrid: pencilGridType;
     private maxNumber: number;
     private size: number;
     private maxEmptyCells = 0;
@@ -26,7 +28,7 @@ export class SudokuService {
         for (let i = 0; i < Math.pow(this.size, 2); i++) {
             const row = [];
             for (let j = 0; j < Math.pow(this.size, 2); j++) {
-                row.push(0);
+                row.push([]);
             }
             pencilGrid.push(row);
         }
