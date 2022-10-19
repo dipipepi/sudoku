@@ -9,6 +9,22 @@ import store from './store';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+store.subscribe(() => {
+    console.log('hello subscribe', store.getState());
+    localStorage.setItem('savedGame', JSON.stringify(store.getState()));
+});
+
+if (!localStorage.getItem('savedGame')) {
+    const savedGame = {
+        sudokuGrid: null,
+        pencilGrid: null,
+        activePosition: null
+    }
+    localStorage.setItem('savedGame', JSON.stringify(savedGame));
+    localStorage.solution('solution', '');
+}
+
 root.render(
     <Provider store={store}>
         <App />

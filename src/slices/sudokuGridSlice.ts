@@ -7,10 +7,14 @@ export const sudokuGridSlice = createSlice({
         add: (state, action) => action.payload,
         setCellValue: (state: any, action) => {
             state[action.payload.row][action.payload.col] = action.payload.value;
+        },
+        clearCellValue: (state: any, action) => {
+            const {row, col} = action.payload;
+            state[row][col] = '';
         }
     }
 });
 
-export const { add, setCellValue } = sudokuGridSlice.actions
+export const { add, setCellValue, clearCellValue } = sudokuGridSlice.actions
 
 export default sudokuGridSlice.reducer

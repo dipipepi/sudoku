@@ -8,9 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { SudokuGrid } from './components/sudokuGrid/SudokuGrid';
 import { ControlPanel } from './components/controlPanel/ControlPanel';
 import { SudokuHeader } from './components/sudokuHeader/SudokuHeader';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { add } from './slices/sudokuGridSlice';
-import {setActivePosition } from './slices/activePositionSlice';
+import { setActivePosition } from './slices/activePositionSlice';
+import { addPencilGrid } from './slices/pencilGridSlice';
 
 export interface GameConfig {
     difficultyLevel: string;
@@ -20,18 +21,17 @@ export interface GameConfig {
 function App() {
     let [ isNewGame, setIsNewGame] = useState(localStorage.savedGame ? false : true);
     let [ autoCheck, setAutoCheck ] = useState(true);
-    let [ pencilGrid, setPencilGrid ] = useState([[]]);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if(localStorage.savedGame) {
-            const sudoku = JSON.parse(localStorage.savedGame);
-            setPencilGrid(sudoku.pencilGrid);
-            dispatch(add(sudoku.sudokuGrid));
-            dispatch(setActivePosition({row: 0, col: 0, square: 0, value: sudoku.sudokuGrid[0][0] || ''}));
+            const { sudokuGrid, pencilGrid, activePosition } = JSON.parse(localStorage.savedGame);
+            dispatch(add(sudokuGrid));
+            dispatch(setActivePosition(activePosition));
+            dispatch(addPencilGrid(pencilGrid));
         }
-    }, []);
+    }, [dispatch]);
 
     const initGame = (gameConfig: GameConfig) => {
         const sudoku = new SudokuService(gameConfig);
@@ -41,8 +41,7 @@ function App() {
         dispatch(add(sudoku.gameGrid));
         // @ts-ignore
         dispatch(setActivePosition({row: 0, col: 0, square: 0, value: sudoku.gameGrid[0][0] || ''}));
-        // @ts-ignore
-        setPencilGrid(sudoku.pencilGrid);
+        dispatch(addPencilGrid(sudoku.pencilGrid));
         setIsNewGame(false);
     }
     

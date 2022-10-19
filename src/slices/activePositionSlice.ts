@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IActivePosition {
+export interface IActivePosition {
     row: number;
     col: number;
     square: number;
     value: string;
+    isReadOnly: string
 }
 
 interface IActivePositionAction {
@@ -21,7 +22,6 @@ const activePositionSlice = createSlice({
     initialState,
     reducers: {
         setActivePosition: (state: ActivePosition, action: IActivePositionAction) => {
-            console.log('hello setActivePosition', action.payload);
             return action.payload;
         }
     }

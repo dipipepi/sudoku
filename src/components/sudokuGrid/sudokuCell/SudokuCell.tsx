@@ -1,16 +1,14 @@
 import React from "react";
 import {useRef} from "react";
-import {useState} from "react";
 import '../SudokuGrid.css';
 import './SudokuCell.css';
 import {useDispatch, useSelector } from "react-redux";
-import { ActivePosition, setActivePosition } from "../../../slices/activePositionSlice";
+import { setActivePosition } from "../../../slices/activePositionSlice";
 
 export function SudokuCell({position, value, children}: any) {
     let activePosition = useSelector((state: any) => state.activePosition);
     const dispatch = useDispatch();
     const ref = useRef();
-    const isActive = useRef(false);
 
     const setActive = (event: any) => {
         const position = {
@@ -18,6 +16,7 @@ export function SudokuCell({position, value, children}: any) {
             col: event.target.dataset.col,
             square: event.target.dataset.square,
             value: event.target.dataset.value,
+            isReadOnly: event.target.dataset.readonly
         };
         dispatch(setActivePosition(position));
     }
@@ -38,6 +37,10 @@ export function SudokuCell({position, value, children}: any) {
             res += ' active';
         }
 
+        if (typeof value === "number") {
+            res += ' game-value'
+        }
+
         return res;
     }
 
@@ -49,7 +52,8 @@ export function SudokuCell({position, value, children}: any) {
             data-row={position[0]}
             data-col={position[1]}
             data-square={position[2]}
-            data-value={value || ''}>
+            data-value={value || ''}
+            data-readOnly={typeof value === 'number' ? true : false}>
             <div className="value">{value || ''}</div>
             <div className="pencil-grid">{children}</div>
         </td>

@@ -1,7 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ActivePosition } from "../../slices/activePositionSlice";
-import { setCellValue } from "../../slices/sudokuGridSlice";
+import { ActivePosition, IActivePosition, setActivePosition } from "../../slices/activePositionSlice";
+import {clearPencilCel, setPencilCellValue } from "../../slices/pencilGridSlice";
+import {clearCellValue, setCellValue } from "../../slices/sudokuGridSlice";
 import './controlPanel.css';
 import NumpadItem from "./numpadItem/NumpadItem";
 
@@ -13,19 +14,26 @@ const actions = {
 
 export function ControlPanel() {
 
-    let activePosition = useSelector((state: any) => state.activePosition);
+    let activePosition: IActivePosition = useSelector((state: any) => state.activePosition);
+    const [ isEditmode, setIsEditMode ] = useState(false);
     const dispatch = useDispatch();
 
-    const setValue = useCallback((value: string) => {
-
-        console.log('hello', activePosition);
-        if (activePosition.value === '') {
-            dispatch(setCellValue({row: activePosition.row, col: activePosition.col, value}));
+    const setValue = (value: string) => {
+        if (activePosition.isReadOnly === 'false') {
+            if(!isEditmode) {
+                dispatch(clearPencilCel({row: activePosition.row, col: activePosition.col, value: new Array(9)}))
+                dispatch(setCellValue({row: activePosition.row, col: activePosition.col, value: value.toString()}));
+                dispatch(setActivePosition({...activePosition, value}))
+            } else {
+                if (!activePosition.value) {
+                    dispatch(setPencilCellValue({row: activePosition.row, col: activePosition.col, value}));
+                }
+            }
         }
-    }, [activePosition]);
+    };
 
     const makeAction = (action: string): void => {
-        console.log('hello action', action);
+        // console.log('hello action', action);
     }
 
     const getnumpadItems = () => {
@@ -38,6 +46,16 @@ export function ControlPanel() {
         return res;
     }
 
+    const setEditMode = () => {
+        setIsEditMode((state) => !state);
+    }
+
+    const clearCell = () => {
+        if (activePosition.isReadOnly === 'false') {
+            dispatch(clearCellValue({row: activePosition.row, col: activePosition.col}));
+        }
+    }
+
     return (
         <div className="game-controls-wrapper">
             <div className="numpad-wrapper">
@@ -47,8 +65,8 @@ export function ControlPanel() {
             </div>
             <div className="game-controls">
                 <div className="game-controls-buttons">
-                    <div className="game-controls-item" onClick={() => makeAction(actions.CANCEL)}>Cancel</div>
-                    <div className="game-controls-item" onClick={() => makeAction(actions.NOTEC)}>Notes</div>
+                    <div className="game-controls-item" onClick={clearCell}>Cancel</div>
+                    <div className={`game-controls-item ${isEditmode ? 'edit-mode' : ''}`} onClick={setEditMode}>Notes</div>
                     <div className="game-controls-item" onClick={() => makeAction(actions.HINT)}>Hitn</div>
                 </div>
             </div>

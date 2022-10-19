@@ -28,7 +28,7 @@ export class SudokuService {
         for (let i = 0; i < Math.pow(this.size, 2); i++) {
             const row = [];
             for (let j = 0; j < Math.pow(this.size, 2); j++) {
-                row.push([]);
+                row.push(new Array(9));
             }
             pencilGrid.push(row);
         }
@@ -140,8 +140,6 @@ export class SudokuService {
         }
         const firstRowRangeOfArea = this.getRangeArray(firstArea, true);
         const secondRowRangeOfArea = this.getRangeArray(secondArea, true);
-        const indexesToChange = firstRowRangeOfArea.concat(secondRowRangeOfArea)
-            .sort((a, b) => a - b);
 
         firstArrayToSwap = getRowsForBigSwap(clonedGrid, firstRowRangeOfArea);
         secondArrayToSwap = getRowsForBigSwap(clonedGrid, secondRowRangeOfArea);
@@ -188,7 +186,7 @@ export class SudokuService {
 
         // @ts-ignore
         for (const item of cellsHaveToBeEmpty.values()) {
-            clonedGrid[item[0]][item[1]] = 0;
+            clonedGrid[item[0]][item[1]] = '';
         }
 
         return clonedGrid;
