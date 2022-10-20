@@ -20,7 +20,6 @@ export interface GameConfig {
 
 function App() {
     let [ isNewGame, setIsNewGame] = useState(localStorage.savedGame ? false : true);
-    let [ autoCheck, setAutoCheck ] = useState(true);
 
     const dispatch = useDispatch();
 
@@ -36,8 +35,9 @@ function App() {
     const initGame = (gameConfig: GameConfig) => {
         const sudoku = new SudokuService(gameConfig);
         localStorage.setItem('savedGame', JSON.stringify(
-            {sudokuGrid: sudoku.gameGrid, solution: sudoku.solution, pencilGrid: sudoku.pencilGrid}
+            {sudokuGrid: sudoku.gameGrid, pencilGrid: sudoku.pencilGrid}
         ));
+        localStorage.setItem('solution', JSON.stringify(sudoku.solution));
         dispatch(add(sudoku.gameGrid));
         // @ts-ignore
         dispatch(setActivePosition({row: 0, col: 0, square: 0, value: sudoku.gameGrid[0][0] || ''}));
@@ -50,23 +50,20 @@ function App() {
     }
 
     return (
-      <>
-          {(() => {
-              if(isNewGame) {
-                  return <GameCreator onChange={(newSettings: GameConfig) => initGame(newSettings)}/>
-              }
-          })()}
-          <div className="wrapper">
-              <div className="game-info-wrapper">
-                  <div className="check-mistakes-wrapper"></div>
-              </div>
-              <SudokuHeader onStartNewGame={() => startNewGame()}
-                            onSetAutocheck={() => {}}/>
-              <div className="game-wrapper">
-                  <SudokuGrid/>
-                  <ControlPanel/>
-              </div>
-          </div>
+        <>
+            {isNewGame ?
+                <GameCreator onChange={(newSettings: GameConfig) => initGame(newSettings)}/> :
+                <div className="wrapper">
+                    <div className="game-info-wrapper">
+                        <div className="check-mistakes-wrapper"></div>
+                    </div>
+                    <SudokuHeader onStartNewGame={() => startNewGame()}/>
+                    <div className="game-wrapper">
+                        <SudokuGrid/>
+                        <ControlPanel/>
+                    </div>
+                </div>
+            }
       </>
   );
 }

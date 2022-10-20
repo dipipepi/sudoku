@@ -5,10 +5,11 @@ import './SudokuCell.css';
 import {useDispatch, useSelector } from "react-redux";
 import { setActivePosition } from "../../../slices/activePositionSlice";
 
-export function SudokuCell({position, value, children}: any) {
+export function SudokuCell({position, value,  children}: any) {
     let activePosition = useSelector((state: any) => state.activePosition);
     const dispatch = useDispatch();
     const ref = useRef();
+    const [currentRow, currentCol, currentSquare, currentValue] = position;
 
     const setActive = (event: any) => {
         const position = {
@@ -24,16 +25,16 @@ export function SudokuCell({position, value, children}: any) {
     const getClasses = (position: any[], activePosition: { row: any; col: any; square: any; }): string => {
         let res = 'game-cell';
         // console.log('hello active', activePosition);
-        if(position[0] == activePosition.row ||
-            position[1] == activePosition.col ||
-            position[2] == activePosition.square ||
+        if(currentRow == activePosition.row ||
+            currentCol == activePosition.col ||
+            currentSquare == activePosition.square ||
             // @ts-ignore
-            position[3] == activePosition.value) {
+            currentValue == activePosition.value) {
             res += ' highlighted';
         }
 
-        if (position[0] == activePosition.row &&
-            position[1] == activePosition.col) {
+        if (currentRow == activePosition.row &&
+            currentCol == activePosition.col) {
             res += ' active';
         }
 
@@ -47,14 +48,15 @@ export function SudokuCell({position, value, children}: any) {
     return (
         // @ts-ignore
         <td ref={ref}
+            id={currentRow + '' + currentCol}
             onClick={setActive}
             className={getClasses(position, activePosition)}
-            data-row={position[0]}
-            data-col={position[1]}
-            data-square={position[2]}
-            data-value={value || ''}
-            data-readOnly={typeof value === 'number' ? true : false}>
-            <div className="value">{value || ''}</div>
+            data-row={currentRow}
+            data-col={currentCol}
+            data-square={currentSquare}
+            data-value={currentValue || ''}
+            data-readonly={typeof value === 'number' ? true : false}>
+            <div className="value">{currentValue || ''}</div>
             <div className="pencil-grid">{children}</div>
         </td>
 

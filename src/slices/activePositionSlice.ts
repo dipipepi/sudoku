@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface IActivePosition {
-    row: number;
-    col: number;
+    row: string;
+    col: string;
     square: number;
-    value: string;
+    value: string | number;
     isReadOnly: string
 }
 

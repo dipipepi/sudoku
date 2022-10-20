@@ -15,6 +15,6 @@ export const sudokuGridSlice = createSlice({
     }
 });
 
-export const { add, setCellValue, clearCellValue } = sudokuGridSlice.actions
+export const { add, setCellValue, clearCellValue } = sudokuGridSlice.actions;
 
-export default sudokuGridSlice.reducer
+export default sudokuGridSlice.reducer;
