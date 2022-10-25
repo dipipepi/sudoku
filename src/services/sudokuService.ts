@@ -2,13 +2,11 @@
 import _ from 'lodash';
 import { GameConfig } from '../App';
 
-type pencilGridType = any[][] | undefined;
-
 export class SudokuService {
-    gameGrid: number[][] | undefined;
-    solution: null | [number[]] = null;
+    gameGrid: number[][] = [];
+    solution: number[][] = [];
     cellsCount: number;
-    pencilGrid: pencilGridType;
+    pencilGrid: number[][][] = [];
     private maxNumber: number;
     private size: number;
     private maxEmptyCells = 0;

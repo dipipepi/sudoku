@@ -6,18 +6,13 @@ import {clearCellValue, setCellValue } from "../../slices/sudokuGridSlice";
 import NumpadItem from "../numpadItem/NumpadItem";
 import './controlPanel.css';
 
-const actions = {
-    CANCEL: 'cancel',
-    NOTEC: 'notec',
-    HINT: 'hint'
-}
-
 export function ControlPanel() {
 
     let activePosition: IActivePosition = useSelector((state: any) => state.activePosition);
     const sudokuGrid: number[][] = useSelector((state: any) => state.sudokuGrid);
     const [ isEditmode, setIsEditMode ] = useState(false);
     const dispatch = useDispatch();
+    let solution = JSON.parse(localStorage.getItem('solution') || '[]');
 
     useEffect(() => {
         const keyDown = (e: KeyboardEvent) => {
@@ -64,19 +59,18 @@ export function ControlPanel() {
         }
     };
 
-    const makeAction = (action: string): void => {
-        // console.log('hello action', action);
-    }
-
     const setSudokuGridValue = (value: string | number): void => {
         const isReadOnly = typeof value === 'number' ? 'true' : 'false';
+
         dispatch(clearPencilCel({row: activePosition.row, col: activePosition.col, value: new Array(9)}))
         dispatch(setCellValue({row: activePosition.row, col: activePosition.col, value}));
         dispatch(setActivePosition({...activePosition, value, isReadOnly}));
     }
 
     const setPencilGridValue = (value: string | number): void => {
-        dispatch(setPencilCellValue({row: activePosition.row, col: activePosition.col, value}));
+        if (!activePosition.value) {
+            dispatch(setPencilCellValue({row: activePosition.row, col: activePosition.col, value}));
+        }
     }
 
     const getnumpadItems = () => {
@@ -99,7 +93,7 @@ export function ControlPanel() {
                 dispatch(clearPencilCel({row: activePosition.row, col: activePosition.col}))
             } else {
                 dispatch(clearCellValue({row: activePosition.row, col: activePosition.col}));
-                dispatch(setActivePosition({...activePosition}));
+                dispatch(setActivePosition({...activePosition, value: ''}));
             }
         }
     }
@@ -138,9 +132,8 @@ export function ControlPanel() {
     }
 
     const showHint = () => {
-        let solution = localStorage.getItem('solution');
-        const value = JSON.parse(localStorage.getItem('solution') || '{}')[activePosition.row][activePosition.col];
-        setValue(value);
+        const value = solution[activePosition.row][activePosition.col];
+        setSudokuGridValue(value);
     }
 
     return (
@@ -152,9 +145,9 @@ export function ControlPanel() {
             </div>
             <div className="game-controls">
                 <div className="game-controls-buttons">
-                    <div className="game-controls-item" onClick={clearCell}>Cancel</div>
-                    <div className={`game-controls-item ${isEditmode ? 'edit-mode' : ''}`} onClick={setEditMode}>Notes</div>
-                    <div className="game-controls-item" onClick={showHint}>Hitn</div>
+                    <button className="game-controls-item" onClick={clearCell}>Cancel</button>
+                    <button className={`game-controls-item ${isEditmode ? 'edit-mode' : ''}`} onClick={setEditMode}>Notes</button>
+                    <button className="game-controls-item" onClick={showHint}>Hitn</button>
                 </div>
             </div>
         </div>);

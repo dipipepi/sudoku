@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface IActivePosition {
     row: string;
     col: string;
-    square: number;
+    square: string;
     value: string | number;
     isReadOnly: string
 }

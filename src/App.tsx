@@ -39,8 +39,16 @@ function App() {
         ));
         localStorage.setItem('solution', JSON.stringify(sudoku.solution));
         dispatch(add(sudoku.gameGrid));
-        // @ts-ignore
-        dispatch(setActivePosition({row: 0, col: 0, square: 0, value: sudoku.gameGrid[0][0] || ''}));
+        const activePosition = {
+            row: '0',
+            col: '0',
+            square: '0',
+            value: sudoku.gameGrid[0][0] || '',
+            isConflictedValue: false,
+            isReadOnly: typeof sudoku.gameGrid[0][0] === 'number' ? 'true' : 'false'
+        }
+
+        dispatch(setActivePosition(activePosition));
         dispatch(addPencilGrid(sudoku.pencilGrid));
         setIsNewGame(false);
     }
@@ -59,7 +67,7 @@ function App() {
                     </div>
                     <SudokuHeader onStartNewGame={() => startNewGame()}/>
                     <div className="game-wrapper">
-                        <SudokuGrid/>
+                        <SudokuGrid startNewGame={startNewGame}/>
                         <ControlPanel/>
                     </div>
                 </div>

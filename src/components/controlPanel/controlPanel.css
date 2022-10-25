@@ -1,13 +1,10 @@
 .game-controls-wrapper {
-    margin-left: 20px;
-    min-width: 100px;
+    width: 100%;
     user-select: none;
-    width: 50%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+    max-width: 450px;
+    display: grid;
+    grid-template-rows: 89% 11%;
+    margin: 0 auto;
 }
 
 .game-controls-wrapper .numpad-wrapper {
@@ -16,9 +13,9 @@
 }
 
 .numpad-wrapper .numpad {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(9, 11.1%);
+    grid-template-rows: 100%;
     height: 100%;
     position: absolute;
     width: 100%;
@@ -26,16 +23,22 @@
 }
 
 .numpad .numpad-item {
+    font-size: 5vw;
     border-color: #9e9e9e;
     border-style: solid;
     border-width: 1px 1px 1px 1px;
     box-sizing: border-box;
     cursor: pointer;
-    padding: 6% 0 5%;
     position: relative;
     text-align: center;
     transition: all .2s ease-in-out;
-    width: 33.3333%;
+}
+
+.numpad .numpad-item p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .numpad .numpad-item:hover {
@@ -53,12 +56,9 @@
 }
 
 .game-controls .game-controls-buttons {
-    box-sizing: border-box;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 5px;
     height: 100%;
     width: 100%;
 }
@@ -70,9 +70,6 @@
     border-width: 0;
     box-sizing: border-box;
     cursor: pointer;
-    flex-basis: 49.9999%;
-    max-width: 48.9999%;
-    margin: 2px 2px;
     padding: 8px 0 6px;
     text-align: center;
     transition: all .2s ease-in-out;
@@ -80,5 +77,24 @@
 }
 
 .game-controls-item.edit-mode {
-    background-color: #19a319;
+    background-color: #3490de;
+    color: white;
+}
+
+@media only screen and (min-width: 800px) {
+    .game-controls-wrapper {
+        width: 50%;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .numpad-wrapper .numpad {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+
+    .numpad .numpad-item {
+        font-size: 4vw;
+    }
 }

@@ -1,11 +1,14 @@
-import React from "react";
-import { SudokuCell } from "./sudokuCell/SudokuCell";
+import React, {useEffect, useState } from "react";
+import { SudokuCell } from "../sudokuCell/SudokuCell";
 import './SudokuGrid.css';
 import { useSelector } from "react-redux";
 
-export function SudokuGrid() {
+// @ts-ignore
+export function SudokuGrid({startNewGame}) {
     let sudokuGrid = useSelector((state: any) => state.sudokuGrid);
     let pencilGrid = useSelector((state: any) => state.pencilGrid);
+    const [ isGameEnded, setIsGameEnded ] = useState(false);
+    const solution = JSON.parse(localStorage.getItem('solution') || '[]');
 
     console.log('hello SudokuGrid ', pencilGrid);
 
@@ -56,14 +59,41 @@ export function SudokuGrid() {
     };
 
     const rows = getRows(sudokuGrid.length);
+
+    useEffect(() => {
+        let isGameWon = true;
+        for (let i = 0; i < sudokuGrid.length; i++) {
+            for (let j = 0; j < sudokuGrid.length; j++) {
+                if(sudokuGrid[i][j] != solution[i][j]) {
+                    isGameWon = false;
+                    break;
+                }
+            }
+        }
+
+        if (isGameWon) {
+            setIsGameEnded(true);
+        }
+    }, [sudokuGrid]);
+
+    const setNewGame = () => {
+        setIsGameEnded(false);
+        startNewGame();
+    }
     
     return (
         <div className="table-wrapper">
-            <table className="table table-bordered sudoku-table">
-                <tbody>
+            {isGameEnded ?
+                <div className='ended-game'>
+                    <h2>Congratulations! You won the game!</h2>
+                    <button onClick={startNewGame}>Start new game</button>
+                </div> :
+                <table className="table table-bordered sudoku-table">
+                    <tbody>
                     {rows}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            }
         </div>
     );
 }

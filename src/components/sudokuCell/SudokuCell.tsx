@@ -1,15 +1,18 @@
 import React from "react";
 import {useRef} from "react";
-import '../SudokuGrid.css';
+import '../sudokuGrid/SudokuGrid.css';
 import './SudokuCell.css';
 import {useDispatch, useSelector } from "react-redux";
-import { setActivePosition } from "../../../slices/activePositionSlice";
+import {IActivePosition, setActivePosition } from "../../slices/activePositionSlice";
 
 export function SudokuCell({position, value,  children}: any) {
-    let activePosition = useSelector((state: any) => state.activePosition);
+    let activePosition: IActivePosition = useSelector((state: any) => state.activePosition);
+
     const dispatch = useDispatch();
     const ref = useRef();
     const [currentRow, currentCol, currentSquare, currentValue] = position;
+    const solution = JSON.parse(localStorage.getItem('solution') || '');
+    console.log('hello value', value)
 
     const setActive = (event: any) => {
         const position = {
@@ -17,20 +20,26 @@ export function SudokuCell({position, value,  children}: any) {
             col: event.target.dataset.col,
             square: event.target.dataset.square,
             value: event.target.dataset.value,
+            isConflictedValue: false,
             isReadOnly: event.target.dataset.readonly
         };
+        const solution = JSON.stringify(localStorage.getItem('solution'));
+        if (solution[position.row][position.col] != position.value) {
+            position.isConflictedValue = false;
+        }
         dispatch(setActivePosition(position));
     }
 
-    const getClasses = (position: any[], activePosition: { row: any; col: any; square: any; }): string => {
+    const getClasses = (position: any[], activePosition: IActivePosition): string => {
         let res = 'game-cell';
-        // console.log('hello active', activePosition);
         if(currentRow == activePosition.row ||
             currentCol == activePosition.col ||
-            currentSquare == activePosition.square ||
-            // @ts-ignore
-            currentValue == activePosition.value) {
+            currentSquare == activePosition.square) {
             res += ' highlighted';
+        }
+
+        if (currentValue == activePosition.value) {
+            res += ' highlighted-number';
         }
 
         if (currentRow == activePosition.row &&
@@ -39,7 +48,13 @@ export function SudokuCell({position, value,  children}: any) {
         }
 
         if (typeof value === "number") {
-            res += ' game-value'
+            res += ' game-value';
+        }
+
+        if (currentValue == activePosition.value && (currentRow == activePosition.row ||
+            currentCol == activePosition.col ||
+            currentSquare == activePosition.square)) {
+            res += ' conflict';
         }
 
         return res;
@@ -55,6 +70,7 @@ export function SudokuCell({position, value,  children}: any) {
             data-col={currentCol}
             data-square={currentSquare}
             data-value={currentValue || ''}
+            data-isconflictedvalue={currentValue && solution[currentRow][currentCol] != currentValue}
             data-readonly={typeof value === 'number' ? true : false}>
             <div className="value">{currentValue || ''}</div>
             <div className="pencil-grid">{children}</div>

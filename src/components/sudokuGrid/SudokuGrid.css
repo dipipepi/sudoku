@@ -1,13 +1,15 @@
 .table-wrapper {
     background-color: #f9f9f9;
+    /*justify-self: right;*/
     max-width: 500px;
-    min-width: 230px;
     position: relative;
     width: 100%;
+    margin: 0 auto;
 }
 
 .table-wrapper .table {
     position: relative;
+    width: 100%;
 }
 .table-wrapper .table::before {
     box-sizing: border-box;
@@ -55,7 +57,8 @@
 }
 
 .game-row{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(9, 11.1%);
 }
 
 .table-wrapper .table tbody::after {
@@ -72,8 +75,6 @@
 }
 
 .table-wrapper .sudoku-table {
-    width: auto;
-    background-color: #f9f9f9;
     justify-content: center;
 }
 
