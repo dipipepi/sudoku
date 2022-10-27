@@ -4,7 +4,7 @@ export const pencilGridSlice = createSlice({
     name: 'sudokuGrid',
     initialState: [[]],
     reducers: {
-        addPencilGrid: (state, action) => action.payload,
+        initPencilGrid: (state, action) => action.payload,
         setPencilCellValue: (state: any, action) => {
             const {row, col, value} = action.payload;
             if (state[row][col].indexOf(value) === -1) {
@@ -21,6 +21,6 @@ export const pencilGridSlice = createSlice({
     }
 });
 
-export const { addPencilGrid, setPencilCellValue, clearPencilCel } = pencilGridSlice.actions
+export const { initPencilGrid, setPencilCellValue, clearPencilCel } = pencilGridSlice.actions
 
 export default pencilGridSlice.reducer

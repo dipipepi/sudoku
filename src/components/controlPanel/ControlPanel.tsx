@@ -1,6 +1,6 @@
-import React, {ReactElement, useCallback, useEffect, useState } from "react";
+import React, {ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ActivePosition, IActivePosition, setActivePosition } from "../../slices/activePositionSlice";
+import { IActivePosition, setActivePosition } from "../../slices/activePositionSlice";
 import {clearPencilCel, setPencilCellValue } from "../../slices/pencilGridSlice";
 import {clearCellValue, setCellValue } from "../../slices/sudokuGridSlice";
 import NumpadItem from "../numpadItem/NumpadItem";
@@ -9,9 +9,9 @@ import './controlPanel.css';
 export function ControlPanel() {
 
     let activePosition: IActivePosition = useSelector((state: any) => state.activePosition);
-    const sudokuGrid: number[][] = useSelector((state: any) => state.sudokuGrid);
     const [ isEditmode, setIsEditMode ] = useState(false);
     const dispatch = useDispatch();
+
     let solution = JSON.parse(localStorage.getItem('solution') || '[]');
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export function ControlPanel() {
         return () => {
             document.removeEventListener('keydown', keyDown);
         }
-    }, [activePosition]);
+    }, []);
 
     const setValue = (value: string | number): void => {
         if (activePosition.isReadOnly === 'false') {

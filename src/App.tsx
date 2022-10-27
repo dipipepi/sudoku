@@ -10,7 +10,7 @@ import { ControlPanel } from './components/controlPanel/ControlPanel';
 import { useDispatch } from 'react-redux';
 import { itinSudokuGrid } from './slices/sudokuGridSlice';
 import { setActivePosition } from './slices/activePositionSlice';
-import { addPencilGrid } from './slices/pencilGridSlice';
+import { initPencilGrid } from './slices/pencilGridSlice';
 
 export interface GameConfig {
     difficultyLevel: string;
@@ -20,6 +20,7 @@ export interface GameConfig {
 function App() {
     const isSavedGameExist = localStorage.savedGame ? false : true;
     const [ isNewGame, setIsNewGame] = useState(isSavedGameExist);
+    const [ wasSudokuGridInit, setWasSudokuGridInit ] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -27,7 +28,8 @@ function App() {
             const { sudokuGrid, pencilGrid, activePosition } = JSON.parse(localStorage.savedGame);
             dispatch(itinSudokuGrid(sudokuGrid));
             dispatch(setActivePosition(activePosition));
-            dispatch(addPencilGrid(pencilGrid));
+            dispatch(initPencilGrid(pencilGrid));
+            setWasSudokuGridInit(true);
         }
     }, []);
 
@@ -44,10 +46,10 @@ function App() {
             square: '0',
             value: sudoku.gameGrid[0][0] || '',
             isReadOnly: typeof sudoku.gameGrid[0][0] === 'number' ? 'true' : 'false'
-        }
+        };
 
         dispatch(setActivePosition(activePosition));
-        dispatch(addPencilGrid(sudoku.pencilGrid));
+        dispatch(initPencilGrid(sudoku.pencilGrid));
         setIsNewGame(false);
     }
     
@@ -59,6 +61,7 @@ function App() {
         <>
             {isNewGame ?
                 <GameCreator onChange={(newSettings: GameConfig) => initGame(newSettings)}/> :
+                wasSudokuGridInit ?
                 <div className="wrapper">
                     <div className="game-info-wrapper">
                         <div className="check-mistakes-wrapper"></div>
@@ -70,7 +73,8 @@ function App() {
                         <SudokuGrid startNewGame={startNewGame}/>
                         <ControlPanel/>
                     </div>
-                </div>
+                </div> :
+                    <div>There's an error with initialization grid</div>
             }
       </>
   );
