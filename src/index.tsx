@@ -11,7 +11,6 @@ const root = ReactDOM.createRoot(
 );
 
 store.subscribe(() => {
-    console.log('hello subscribe', store.getState());
     localStorage.setItem('savedGame', JSON.stringify(store.getState()));
 });
 

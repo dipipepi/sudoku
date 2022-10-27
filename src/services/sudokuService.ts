@@ -5,14 +5,13 @@ import { GameConfig } from '../App';
 export class SudokuService {
     gameGrid: number[][] = [];
     solution: number[][] = [];
-    cellsCount: number;
     pencilGrid: number[][][] = [];
+    private cellsCount: number;
     private maxNumber: number;
-    private size: number;
+    private size = 3;
     private maxEmptyCells = 0;
 
-    constructor({size, difficultyLevel}: GameConfig) {
-        this.size = size;
+    constructor({difficultyLevel}: GameConfig) {
         this.maxNumber = Math.pow(this.size, 2);
         this.cellsCount = Math.pow(this.maxNumber, 2);
         this.maxEmptyCells = this.getEmptyCellsCount(difficultyLevel);
@@ -20,7 +19,7 @@ export class SudokuService {
         this.createPencilGrid();
     }
 
-    private createPencilGrid() {
+    private createPencilGrid(): void {
         const pencilGrid = [];
 
         for (let i = 0; i < Math.pow(this.size, 2); i++) {
@@ -41,7 +40,7 @@ export class SudokuService {
         this.gameGrid = this.hideCells(grid);
     }
 
-    private getEmptyCellsCount = (level: string): number => {
+    private getEmptyCellsCount(level: string): number {
         let emptyCellsPercent = 0;
 
         switch (level) {

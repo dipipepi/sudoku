@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, {ReactElement, useEffect, useState } from "react";
 import { SudokuCell } from "../sudokuCell/SudokuCell";
 import './SudokuGrid.css';
 import { useSelector } from "react-redux";
@@ -10,15 +10,8 @@ export function SudokuGrid({startNewGame}) {
     const [ isGameEnded, setIsGameEnded ] = useState(false);
     const solution = JSON.parse(localStorage.getItem('solution') || '[]');
 
-    console.log('hello SudokuGrid ', pencilGrid);
-
-
-    const getPencilGrid = (numberOfRow: number, numberOfCol: number, pencilGrid: any) => {
-        if (pencilGrid.length <= 1) {
-            return;
-        }
+    const getPencilGrid = (numberOfRow: number, numberOfCol: number, pencilGrid: any): ReactElement[] => {
         let cells = [];
-        // <div key={'pg-' + numberOfRow + '-' + i} className="pencil-grid-cell">{pencilGrid[numberOfRow][numberOfCol][i]}</div>
 
         for (let i = 0; i < sudokuGrid.length; i++){
             cells.push(
@@ -29,26 +22,25 @@ export function SudokuGrid({startNewGame}) {
         return cells;
     }
 
-    const getCells = (numberOfRow: number) => {
+    const getCells = (numberOfRow: number): ReactElement[] => {
         let cells = [];
-        const SudokuCellMemo = React.memo(SudokuCell);
 
         for (let i = 0; i < sudokuGrid.length; i++){
             const square = 3 * Math.floor(numberOfRow / 3) + Math.floor(i / 3);
             const position = numberOfRow+''+i+''+square+''+sudokuGrid[numberOfRow][i] || '';
             cells.push(
-                <SudokuCellMemo key={numberOfRow+i}
+                <SudokuCell key={numberOfRow+i}
                             position={position}
                             value={sudokuGrid[numberOfRow][i] || ''}>
                     {getPencilGrid(numberOfRow, i, pencilGrid)}
-                </SudokuCellMemo>
+                </SudokuCell>
             )
         }
 
         return cells;
     }
 
-    const getRows = (count: number) => {
+    const getRows = (count: number): ReactElement[] => {
         let rows = [];
 
         for (let i = 0; i < sudokuGrid.length; i++){
@@ -58,13 +50,11 @@ export function SudokuGrid({startNewGame}) {
         return rows;
     };
 
-    const rows = getRows(sudokuGrid.length);
-
     useEffect(() => {
         let isGameWon = true;
         for (let i = 0; i < sudokuGrid.length; i++) {
             for (let j = 0; j < sudokuGrid.length; j++) {
-                if(sudokuGrid[i][j] != solution[i][j]) {
+                if(Number(sudokuGrid[i][j]) !== solution[i][j]) {
                     isGameWon = false;
                     break;
                 }
@@ -75,11 +65,6 @@ export function SudokuGrid({startNewGame}) {
             setIsGameEnded(true);
         }
     }, [sudokuGrid]);
-
-    const setNewGame = () => {
-        setIsGameEnded(false);
-        startNewGame();
-    }
     
     return (
         <div className="table-wrapper">
@@ -90,7 +75,7 @@ export function SudokuGrid({startNewGame}) {
                 </div> :
                 <table className="table table-bordered sudoku-table">
                     <tbody>
-                    {rows}
+                    {getRows(sudokuGrid.length)}
                     </tbody>
                 </table>
             }

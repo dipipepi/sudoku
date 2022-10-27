@@ -12,25 +12,21 @@ export function SudokuCell({position, value,  children}: any) {
     const ref = useRef();
     const [currentRow, currentCol, currentSquare, currentValue] = position;
     const solution = JSON.parse(localStorage.getItem('solution') || '');
-    console.log('hello value', value)
 
-    const setActive = (event: any) => {
+    const setActive = (event: any): void => {
         const position = {
             row: event.target.dataset.row,
             col: event.target.dataset.col,
             square: event.target.dataset.square,
             value: event.target.dataset.value,
-            isConflictedValue: false,
             isReadOnly: event.target.dataset.readonly
         };
         const solution = JSON.stringify(localStorage.getItem('solution'));
-        if (solution[position.row][position.col] != position.value) {
-            position.isConflictedValue = false;
-        }
         dispatch(setActivePosition(position));
     }
 
     const getClasses = (position: any[], activePosition: IActivePosition): string => {
+        const [currentRow, currentCol, currentSquare, currentValue] = position;
         let res = 'game-cell';
         if(currentRow == activePosition.row ||
             currentCol == activePosition.col ||

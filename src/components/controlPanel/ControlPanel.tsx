@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {ReactElement, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivePosition, IActivePosition, setActivePosition } from "../../slices/activePositionSlice";
 import {clearPencilCel, setPencilCellValue } from "../../slices/pencilGridSlice";
@@ -38,9 +38,6 @@ export function ControlPanel() {
                 case 'ArrowRight':
                     moveActivePosition(key);
             }
-            if (e.keyCode == 8) {
-                clearCell();
-            }
         }
         document.addEventListener('keydown', keyDown);
 
@@ -49,7 +46,7 @@ export function ControlPanel() {
         }
     }, [activePosition]);
 
-    const setValue = (value: string | number) => {
+    const setValue = (value: string | number): void => {
         if (activePosition.isReadOnly === 'false') {
             if(!isEditmode) {
                 setSudokuGridValue(value);
@@ -73,7 +70,7 @@ export function ControlPanel() {
         }
     }
 
-    const getnumpadItems = () => {
+    const getnumpadItems = (): ReactElement[] => {
         const res = [];
 
         for (let i = 0; i < 9; i++) {
@@ -83,11 +80,11 @@ export function ControlPanel() {
         return res;
     }
 
-    const setEditMode = () => {
+    const setEditMode = (): void => {
         setIsEditMode((state) => !state);
     }
 
-    const clearCell = () => {
+    const clearCell = (): void => {
         if (activePosition.isReadOnly === 'false') {
             if(isEditmode) {
                 dispatch(clearPencilCel({row: activePosition.row, col: activePosition.col}))
@@ -98,7 +95,7 @@ export function ControlPanel() {
         }
     }
 
-    const moveActivePosition = (action: string) => {
+    const moveActivePosition = (action: string): void => {
         const newPosition = {...activePosition};
         switch (action) {
             case 'ArrowUp':
@@ -131,7 +128,7 @@ export function ControlPanel() {
         }
     }
 
-    const showHint = () => {
+    const showHint = (): void => {
         const value = solution[activePosition.row][activePosition.col];
         setSudokuGridValue(value);
     }
