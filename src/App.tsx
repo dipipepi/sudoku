@@ -51,6 +51,7 @@ function App() {
         dispatch(setActivePosition(activePosition));
         dispatch(initPencilGrid(sudoku.pencilGrid));
         setIsNewGame(false);
+        setWasSudokuGridInit(true);
     }
     
     const startNewGame = () => {
