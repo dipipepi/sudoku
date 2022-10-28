@@ -33,8 +33,8 @@ function App() {
         }
     }, []);
 
-    const initGame = (gameConfig: GameConfig) => {
-        const sudoku = new SudokuService(gameConfig);
+    const initGame = (difficultyLevel: string) => {
+        const sudoku = new SudokuService(difficultyLevel);
         localStorage.setItem('savedGame', JSON.stringify(
             {sudokuGrid: sudoku.gameGrid, pencilGrid: sudoku.pencilGrid}
         ));
@@ -61,7 +61,7 @@ function App() {
     return (
         <>
             {isNewGame ?
-                <GameCreator onChange={(newSettings: GameConfig) => initGame(newSettings)}/> :
+                <GameCreator onChange={(difficultyLevel: string) => initGame(difficultyLevel)}/> :
                 wasSudokuGridInit ?
                 <div className="wrapper">
                     <div className="game-info-wrapper">

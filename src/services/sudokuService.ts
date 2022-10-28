@@ -1,9 +1,7 @@
-// @ts-ignore
 import _ from 'lodash';
-import { GameConfig } from '../App';
 
 export class SudokuService {
-    gameGrid: number[][] = [];
+    gameGrid: (string|number)[][] = [];
     solution: number[][] = [];
     pencilGrid: number[][][] = [];
     private cellsCount: number;
@@ -11,7 +9,7 @@ export class SudokuService {
     private size = 3;
     private maxEmptyCells = 0;
 
-    constructor({difficultyLevel}: GameConfig) {
+    constructor(difficultyLevel: string) {
         this.maxNumber = Math.pow(this.size, 2);
         this.cellsCount = Math.pow(this.maxNumber, 2);
         this.maxEmptyCells = this.getEmptyCellsCount(difficultyLevel);
@@ -109,7 +107,7 @@ export class SudokuService {
         return this.transposing(clonedGrid);
     }
 
-    private makeBigRowsSwap(grid: number[][]): number[][] | void {
+    private makeBigRowsSwap(grid: number[][]): number[][] {
         const getRowsForBigSwap = (grid: number[][], range: number[]) => {
             const clonedGrid = _.cloneDeep(grid);
             const rowsForSwap = [];
@@ -171,7 +169,7 @@ export class SudokuService {
         return clonedGrid;
     }
 
-    private hideCells(grid: number[][]) {
+    private hideCells(grid: (string | number)[][]) {
         const clonedGrid = _.cloneDeep(grid);
         const cellsHaveToBeEmpty = new Map();
 
@@ -181,7 +179,7 @@ export class SudokuService {
             cellsHaveToBeEmpty.set(`x:${firstIndex}-y:${secondIndex}`, [firstIndex, secondIndex]);
         }
 
-        // @ts-ignore
+
         for (const item of cellsHaveToBeEmpty.values()) {
             clonedGrid[item[0]][item[1]] = '';
         }

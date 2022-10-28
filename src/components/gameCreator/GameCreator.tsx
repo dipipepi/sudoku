@@ -1,12 +1,13 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
 import './gameCreactorStyles.css';
 import {useState} from "react";
 import { dificultyLevelConstants } from '../../constants';
-import { GameConfig } from '../../App';
 
-// @ts-ignore
-export function GameCreator({onChange}) {
+type Props = {
+    onChange: (difficultyLevel: string) => void
+}
+
+export function GameCreator({onChange}: Props) {
     const [ gameConfig, setGameConfig ] = useState({
         difficultyLevel: 'easy'
     });
@@ -16,7 +17,7 @@ export function GameCreator({onChange}) {
     }
 
     const startGame = (): void => {
-        onChange(gameConfig);
+        onChange(gameConfig.difficultyLevel);
     }
 
     const difficultyValues = ['easy', 'middle', 'hard', 'ultraHard'];

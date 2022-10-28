@@ -3,8 +3,11 @@ import { SudokuCell } from "../sudokuCell/SudokuCell";
 import './SudokuGrid.css';
 import { useSelector } from "react-redux";
 
-// @ts-ignore
-export function SudokuGrid({startNewGame}) {
+type Props = {
+    startNewGame: () => void
+};
+
+export function SudokuGrid({startNewGame}: Props) {
     let sudokuGrid = useSelector((state: any) => state.sudokuGrid);
     let pencilGrid = useSelector((state: any) => state.pencilGrid);
     const [ isGameEnded, setIsGameEnded ] = useState(false);

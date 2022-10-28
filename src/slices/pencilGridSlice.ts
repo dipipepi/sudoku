@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState: (null | number)[][][] = []
+
 export const pencilGridSlice = createSlice({
     name: 'sudokuGrid',
-    initialState: [[]],
+    initialState,
     reducers: {
         initPencilGrid: (state, action) => action.payload,
         setPencilCellValue: (state: any, action) => {
@@ -15,7 +17,6 @@ export const pencilGridSlice = createSlice({
         },
         clearPencilCel: (state, action) => {
             const {row, col} = action.payload;
-            // @ts-ignore
             state[row][col] = new Array(9);
         }
     }
