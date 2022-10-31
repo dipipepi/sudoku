@@ -3,10 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import {SudokuService} from "./services/sudokuService";
 import {useState} from 'react';
-import { GameCreator } from './components/gameCreator/GameCreator';
+import { GameCreator } from './components/GameCreator/GameCreator';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { SudokuGrid } from './components/sudokuGrid/SudokuGrid';
-import { ControlPanel } from './components/controlPanel/ControlPanel';
+import { SudokuGrid } from './components/SudokuGrid/SudokuGrid';
+import { ControlPanel } from './components/ControlPanel/ControlPanel';
 import { useDispatch } from 'react-redux';
 import { itinSudokuGrid } from './slices/sudokuGridSlice';
 import { setActivePosition } from './slices/activePositionSlice';
@@ -61,7 +61,7 @@ function App() {
     return (
         <>
             {isNewGame ?
-                <GameCreator onChange={(difficultyLevel: string) => initGame(difficultyLevel)}/> :
+                <GameCreator onChange={initGame}/> :
                 wasSudokuGridInit ?
                 <div className="wrapper">
                     <div className="game-info-wrapper">

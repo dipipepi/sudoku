@@ -1,5 +1,5 @@
 import React, {ReactElement, useEffect, useState } from "react";
-import { SudokuCell } from "../sudokuCell/SudokuCell";
+import { SudokuCell } from "../SudokuCell/SudokuCell";
 import './SudokuGrid.css';
 import { useSelector } from "react-redux";
 

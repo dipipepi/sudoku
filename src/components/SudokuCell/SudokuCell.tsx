@@ -1,6 +1,6 @@
 import React from "react";
 import {useRef} from "react";
-import '../sudokuGrid/SudokuGrid.css';
+import '../SudokuGrid/SudokuGrid.css';
 import './SudokuCell.css';
 import {useDispatch, useSelector } from "react-redux";
 import {IActivePosition, setActivePosition } from "../../slices/activePositionSlice";

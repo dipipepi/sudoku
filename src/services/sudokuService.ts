@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { DIFFICULTY_LEVELS } from '../const/index';
 
 export class SudokuService {
     gameGrid: (string|number)[][] = [];
@@ -42,16 +43,16 @@ export class SudokuService {
         let emptyCellsPercent = 0;
 
         switch (level) {
-            case 'easy':
+            case DIFFICULTY_LEVELS.EASY:
                 emptyCellsPercent = 0.55;
                 break;
-            case 'middle':
+            case DIFFICULTY_LEVELS.MIDDLE:
                 emptyCellsPercent = 0.60;
                 break;
-            case 'hard':
+            case DIFFICULTY_LEVELS.HARD:
                 emptyCellsPercent = 0.65;
                 break;
-            case 'ultraHard':
+            case DIFFICULTY_LEVELS.ULTRA_HARD:
                 emptyCellsPercent = 0.70;
                 break;
         }

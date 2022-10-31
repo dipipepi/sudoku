@@ -1,10 +1,12 @@
 import React, {ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { IActivePosition, setActivePosition } from "../../slices/activePositionSlice";
 import {clearPencilCel, setPencilCellValue } from "../../slices/pencilGridSlice";
 import {clearCellValue, setCellValue } from "../../slices/sudokuGridSlice";
-import NumpadItem from "../numpadItem/NumpadItem";
+import NumpadItem from "../NumpadItem/NumpadItem";
 import './controlPanel.css';
+import {StyledButton, StyledGameControlsButtons } from "./style";
 
 export function ControlPanel() {
 
@@ -140,12 +142,10 @@ export function ControlPanel() {
                     {getnumpadItems()}
                 </div>
             </div>
-            <div className="game-controls">
-                <div className="game-controls-buttons">
-                    <button className="game-controls-item" onClick={clearCell}>Cancel</button>
-                    <button className={`game-controls-item ${isEditmode ? 'edit-mode' : ''}`} onClick={setEditMode}>Notes</button>
-                    <button className="game-controls-item" onClick={showHint}>Hitn</button>
-                </div>
-            </div>
+                <StyledGameControlsButtons>
+                    <StyledButton onClick={clearCell}>Cancel</StyledButton>
+                    <StyledButton isEditode={isEditmode} onClick={setEditMode}>Notes</StyledButton>
+                    <StyledButton onClick={showHint}>Hitn</StyledButton>
+                </StyledGameControlsButtons>
         </div>);
 }
