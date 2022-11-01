@@ -1,7 +1,7 @@
 import React from 'react';
-import './gameCreactorStyles.css';
 import {useState} from "react";
 import { DIFFICULTY_LEVELS } from '../../const/index';
+import {StyledCreateGameButton, StyledCreator, StyledCreatorButton, StyledCreatorWrapper, StyledDifficultySection } from './style';
 
 type Props = {
     onChange: (difficultyLevel: string) => void
@@ -12,19 +12,19 @@ export function GameCreator({onChange}: Props) {
     const difficultyValues = Object.entries(DIFFICULTY_LEVELS);
 
     return (
-        <div className='game-creator-wrapper'>
-            <div className="game-creator">
-                <div className="dificulty-selector buttons">
+        <StyledCreatorWrapper>
+            <StyledCreator>
+                <StyledDifficultySection>
                     <h4>Select dificult level</h4>
                     {difficultyValues.map(item => {
-                        return <button key={item[0]} className={difficultyLevel === item[1] ? 'active' : ''}
+                        return <StyledCreatorButton key={item[0]} isActive={difficultyLevel === item[1]}
                                        onClick={() => setDifficultyLevel(item[1])}
-                        >{item[1]}</button>
+                        >{item[1]}</StyledCreatorButton>
                     })}
-                </div>
-                <button className='start-game-button' onClick={() => onChange(difficultyLevel)}>Start Game</button>
-            </div>
-        </div>
+                </StyledDifficultySection>
+                <StyledCreateGameButton onClick={() => onChange(difficultyLevel)}>Start Game</StyledCreateGameButton>
+            </StyledCreator>
+        </StyledCreatorWrapper>
     )
 }
 

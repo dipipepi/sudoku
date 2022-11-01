@@ -1,9 +1,8 @@
 import React from "react";
 import {useRef} from "react";
-import '../SudokuGrid/SudokuGrid.css';
-import './SudokuCell.css';
 import {useDispatch, useSelector } from "react-redux";
 import {IActivePosition, setActivePosition } from "../../slices/activePositionSlice";
+import {StyledGameCell, StyledPencilGrid, StyledValue } from "./style";
 
 export function SudokuCell({position, value,  children}: any) {
     let activePosition: IActivePosition = useSelector((state: any) => state.activePosition);
@@ -58,7 +57,7 @@ export function SudokuCell({position, value,  children}: any) {
 
     return (
         // @ts-ignore
-        <td ref={ref}
+        <StyledGameCell ref={ref}
             id={currentRow + '' + currentCol}
             onClick={setActive}
             className={getClasses(position, activePosition)}
@@ -66,11 +65,11 @@ export function SudokuCell({position, value,  children}: any) {
             data-col={currentCol}
             data-square={currentSquare}
             data-value={currentValue || ''}
-            data-isconflictedvalue={currentValue && solution[currentRow][currentCol] != currentValue}
+            isConflictedValue={currentValue && solution[currentRow][currentCol] != currentValue}
             data-readonly={typeof value === 'number' ? true : false}>
-            <div className="value">{currentValue || ''}</div>
-            <div className="pencil-grid">{children}</div>
-        </td>
+            <StyledValue>{currentValue || ''}</StyledValue>
+            <StyledPencilGrid>{children}</StyledPencilGrid>
+        </StyledGameCell>
 
     )
 }

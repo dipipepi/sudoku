@@ -1,17 +1,20 @@
-.table-wrapper {
-    background-color: #f9f9f9;
-    /*justify-self: right;*/
-    max-width: 500px;
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-}
+import styled from "styled-components";
 
-.table-wrapper .table {
-    position: relative;
-    width: 100%;
-}
-.table-wrapper .table::before {
+const StyledTableWrapped = styled.div`
+  background-color: #f9f9f9;
+  max-width: 500px;
+  min-height: 300px;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+`;
+
+const StyledTable = styled.table`
+  position: relative;
+  width: 100%;
+  justify-content: center;
+  
+  &:before {
     box-sizing: border-box;
     display: block;
     height: 99.9999%;
@@ -23,9 +26,9 @@
     top: 0;
     width: 0;
     z-index: 1;
-}
-
-.table-wrapper .table::after {
+  }
+  
+  &:after{
     box-sizing: border-box;
     display: block;
     height: 100%;
@@ -36,13 +39,13 @@
     position: absolute;
     top: 0;
     width: 0;
-}
+  }
+`;
 
-.table-wrapper .table tbody {
-    border-color: #9e9e9e;
-}
-
-.table-wrapper .table tbody::before {
+const StyledTableBody = styled.tbody`
+  border-color: #9e9e9e;
+  
+  &:before {
     border-top: 2px solid #4e4e4e;
     content: "";
     display: block;
@@ -54,14 +57,9 @@
     box-sizing: border-box;
     width: 99.9999%;
     z-index: 1;
-}
-
-.game-row{
-    display: grid;
-    grid-template-columns: repeat(9, 11.1%);
-}
-
-.table-wrapper .table tbody::after {
+  }
+  
+  &:after {
     border-bottom: 2px solid #4e4e4e;
     content: "";
     display: block;
@@ -72,19 +70,18 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 99.9999%;
-}
+  }
+`;
 
-.table-wrapper .sudoku-table {
-    justify-content: center;
-}
+const StyledGameRow = styled.tr`
+  display: grid;
+  grid-template-columns: repeat(9, 11.1%);
+`;
 
-.game-table td {
-    border: 1px solid black;
-}
+const StyledEndedGame = styled.div`
+  text-align: center;
+  position: absolute;
+  top: 36%;
+`;
 
-.game-table td .value {
-    text-align: center;
-    min-width: 30px;
-    min-height: 30px;
-}
-
+export { StyledTableWrapped, StyledTable, StyledTableBody, StyledGameRow, StyledEndedGame };

@@ -1,7 +1,9 @@
 import React, {ReactElement, useEffect, useState } from "react";
 import { SudokuCell } from "../SudokuCell/SudokuCell";
-import './SudokuGrid.css';
 import { useSelector } from "react-redux";
+import { StyledPencilCell } from "../SudokuCell/style";
+import {StyledEndedGame, StyledGameRow, StyledTable, StyledTableBody, StyledTableWrapped } from "./style";
+import { StyledCreateNewGameButton } from "../AppContainer/style";
 
 type Props = {
     startNewGame: () => void
@@ -18,7 +20,7 @@ export function SudokuGrid({startNewGame}: Props) {
 
         for (let i = 0; i < sudokuGrid.length; i++){
             cells.push(
-                <div key={'pg-' + numberOfRow + '-' + i} className="pencil-grid-cell">{pencilGrid[numberOfRow][numberOfCol][i]}</div>
+                <StyledPencilCell key={'pg-' + numberOfRow + '-' + i}>{pencilGrid[numberOfRow][numberOfCol][i]}</StyledPencilCell>
             )
         }
 
@@ -47,7 +49,7 @@ export function SudokuGrid({startNewGame}: Props) {
         let rows = [];
 
         for (let i = 0; i < sudokuGrid.length; i++){
-            rows.push(<tr className='game-row' key={i}>{getCells(i)}</tr>)
+            rows.push(<StyledGameRow key={i}>{getCells(i)}</StyledGameRow>)
         }
 
         return rows;
@@ -70,18 +72,18 @@ export function SudokuGrid({startNewGame}: Props) {
     }, [sudokuGrid]);
     
     return (
-        <div className="table-wrapper">
+        <StyledTableWrapped className="table-wrapper">
             {isGameEnded ?
-                <div className='ended-game'>
+                <StyledEndedGame>
                     <h2>Congratulations! You won the game!</h2>
-                    <button onClick={startNewGame}>Start new game</button>
-                </div> :
-                <table className="table table-bordered sudoku-table">
-                    <tbody>
+                    <StyledCreateNewGameButton onClick={startNewGame}>Start new game</StyledCreateNewGameButton>
+                </StyledEndedGame> :
+                <StyledTable className="table-bordered ">
+                    <StyledTableBody>
                     {getRows(sudokuGrid.length)}
-                    </tbody>
-                </table>
+                    </StyledTableBody>
+                </StyledTable>
             }
-        </div>
+        </StyledTableWrapped>
     );
 }
