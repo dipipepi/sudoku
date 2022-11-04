@@ -5,16 +5,16 @@ const StyledGameControlWrapper = styled.div`
   user-select: none;
   max-width: 450px;
   display: grid;
-  grid-template-rows: 40px 40px ;
+  grid-template-rows: 40px 40px;
   margin: 0 auto;
   gap: 10px;
 
   @media (min-width: 800px) {
-      width: 50%;
-      margin-left: 15px;
-      display: flex;
-      gap: 10px;
-      flex-direction: column;
+    width: 50%;
+    margin-left: 15px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
   }
 `;
 
@@ -50,8 +50,8 @@ const StyledGameControlsButtons = styled.div`
   }
 `;
 
-const StyledButton = styled.button<{isEditode?: boolean}>`
-  background-color: ${props => props.isEditode ? '#3490de' : '#e9e9e9'};
+const StyledButton = styled.button<{ isEditode?: boolean }>`
+  background-color: ${(props) => (props.isEditode ? "#3490de" : "#e9e9e9")};
   border-color: #fff;
   border-style: solid;
   border-width: 0;
@@ -59,9 +59,15 @@ const StyledButton = styled.button<{isEditode?: boolean}>`
   cursor: pointer;
   padding: 8px 0 6px;
   text-align: center;
-  transition: all .2s ease-in-out;
-  color: ${props => props.isEditode ? 'white' : '#4e4e4e'};
+  transition: all 0.2s ease-in-out;
+  color: ${(props) => (props.isEditode ? "white" : "#4e4e4e")};
   color: #4e4e4e;
 `;
 
-export { StyledGameControlWrapper, StyledNumpadWrapper, StyledNumpad, StyledGameControlsButtons, StyledButton };
+export {
+  StyledGameControlWrapper,
+  StyledNumpadWrapper,
+  StyledNumpad,
+  StyledGameControlsButtons,
+  StyledButton,
+};

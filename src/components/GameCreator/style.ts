@@ -24,13 +24,13 @@ const StyledDifficultySection = styled.div`
   align-items: center;
 `;
 
-const StyledCreatorButton = styled.button<{isActive?: boolean}>`
+const StyledCreatorButton = styled.button<{ isActive?: boolean }>`
   width: 100px;
   border: 1px solid #dbdbdb;
   border-radius: 20px;
   margin: 10px 0;
-  background-color: ${props => props.isActive ? '#19a319' : 'white'};
-  color: ${props => props.isActive ? 'white' : 'black'};
+  background-color: ${(props) => (props.isActive ? "#19a319" : "white")};
+  color: ${(props) => (props.isActive ? "white" : "black")};
 `;
 
 const StyledCreateGameButton = styled(StyledCreatorButton)`
@@ -39,4 +39,10 @@ const StyledCreateGameButton = styled(StyledCreatorButton)`
   background-color: #19a319;
 `;
 
-export { StyledCreatorWrapper, StyledCreator, StyledDifficultySection, StyledCreatorButton, StyledCreateGameButton };
+export {
+  StyledCreatorWrapper,
+  StyledCreator,
+  StyledDifficultySection,
+  StyledCreatorButton,
+  StyledCreateGameButton,
+};

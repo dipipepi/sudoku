@@ -1,13 +1,9 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { AppContainer } from './components/AppContainer/AppContainer';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { AppContainer } from "./components/AppContainer/AppContainer";
 
 function App() {
-
-    return (
-        <AppContainer />
-  );
+  return <AppContainer />;
 }
 
 export default App;
-

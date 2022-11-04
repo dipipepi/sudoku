@@ -13,7 +13,7 @@ const StyledTable = styled.table`
   position: relative;
   width: 100%;
   justify-content: center;
-  
+
   &:before {
     box-sizing: border-box;
     display: block;
@@ -27,8 +27,8 @@ const StyledTable = styled.table`
     width: 0;
     z-index: 1;
   }
-  
-  &:after{
+
+  &:after {
     box-sizing: border-box;
     display: block;
     height: 100%;
@@ -44,7 +44,7 @@ const StyledTable = styled.table`
 
 const StyledTableBody = styled.tbody`
   border-color: #9e9e9e;
-  
+
   &:before {
     border-top: 2px solid #4e4e4e;
     content: "";
@@ -58,7 +58,7 @@ const StyledTableBody = styled.tbody`
     width: 99.9999%;
     z-index: 1;
   }
-  
+
   &:after {
     border-bottom: 2px solid #4e4e4e;
     content: "";
@@ -84,4 +84,10 @@ const StyledEndedGame = styled.div`
   top: 36%;
 `;
 
-export { StyledTableWrapped, StyledTable, StyledTableBody, StyledGameRow, StyledEndedGame };
+export {
+  StyledTableWrapped,
+  StyledTable,
+  StyledTableBody,
+  StyledGameRow,
+  StyledEndedGame,
+};

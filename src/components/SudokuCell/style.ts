@@ -1,45 +1,43 @@
 import styled from "styled-components";
 
-const StyledGameCell = styled.td<{isConflictedValue?: boolean}>`
+const StyledGameCell = styled.td<{ isConflictedValue?: boolean }>`
   aspect-ratio: 1 / 1;
   text-align: center;
   vertical-align: middle;
   font-size: 5vw;
   font-weight: 300;
   position: relative;
-  color: ${props => props.isConflictedValue ? '#fb3e3f' : '#4b90e2'};
-  transition: all .2s ease-in-out;
-  
-  &:hover{
+  color: ${(props) => (props.isConflictedValue ? "#fb3e3f" : "#4b90e2")};
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
     background-color: #def;
     cursor: pointer;
   }
-  
+
   &.active {
     background-color: #bbd7f6 !important;
   }
-  
+
   &.game-value {
     color: black;
   }
-  
+
   &.highlighted {
     background-color: #e9e9e9;
   }
-  
+
   &.highlighted-number {
     background-color: #c4c6d5;
   }
-  
+
   &.conflict {
     background-color: #f7cfd6;
   }
 
-  @media(min-width: 800px) {
+  @media (min-width: 800px) {
     font-size: 3.5vw;
   }
-  
-  
 `;
 
 const StyledValue = styled.div`
@@ -72,4 +70,4 @@ const StyledPencilCell = styled.div`
   position: relative;
 `;
 
-export { StyledGameCell, StyledValue, StyledPencilGrid, StyledPencilCell};
+export { StyledGameCell, StyledValue, StyledPencilGrid, StyledPencilCell };
